@@ -1,0 +1,1 @@
+[{"id":1,"cardholder_name":"John Doe","card_number":"1234567890123456","expiration_date":"12/21","cvv":"123","balance":68.0},{"id":2,"cardholder_name":"Jane Smith","card_number":"2345678901234567","expiration_date":"06/22","cvv":"234","balance":232.0}]
