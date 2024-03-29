@@ -1,0 +1,18 @@
+1234567890123456
+567
+10/25
+Nobody
+
+
+4584928291284921
+529
+11/28
+FreeAccount
+
+8391048392019349
+437
+04/27
+Random Guy
+
+Create new CC -> abandoned.pythonanywhere.com/api/create/   POST
+
