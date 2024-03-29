@@ -1,4 +1,4 @@
-import { Button, Grid, Icon, styled, Card } from "@mui/material";
+import { Button, Grid, Icon, styled, Card, CircularProgress } from "@mui/material";
 import { Span } from "app/components/Typography";
 import { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
@@ -19,6 +19,9 @@ const TextField = styled(TextValidator)(() => ({
 }));
 
 export default function StatCards() {
+
+  const [isChecking, setIsChecking] = useState(false);
+
   const [transactionDetails, setTransactionDetails] = useState({
     cardNumber: "",
     amount: "",
@@ -56,6 +59,7 @@ export default function StatCards() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsChecking(true);
     console.log("Transaction Details: ", transactionDetails);
     // Here you would normally send the data to the backend API
     // using fetch or axios for example.
@@ -72,7 +76,7 @@ export default function StatCards() {
     try {
       // Send a POST request to the specified endpoint
       const response = await axios.post(
-        "http://localhost:8888/CreditCardProcessingPro/creditcard",
+        "http://abandoned.pythonanywhere.com/api/transfer/",
         postData
       );
 
@@ -99,6 +103,8 @@ export default function StatCards() {
         error.message || "An error occurred while processing your request."
       );
       // Insert code to display a network error message/notification to the user
+    } finally {
+      setIsChecking(false);
     }
   };
 
@@ -174,8 +180,16 @@ export default function StatCards() {
                 />
               </Grid>
             </Grid>
-            <Button color="primary" variant="contained" type="submit" endIcon={<Icon>send</Icon>}>
-              <Span sx={{ pl: 1, textTransform: "capitalize" }}>Send Amount</Span>
+            <Button 
+              color="primary" 
+              variant="contained" 
+              type="submit" 
+              endIcon={isChecking ? <CircularProgress size={24} /> : <Icon>send</Icon>}
+              disabled={isChecking} // Disable the button when the API call is in progress
+            >
+              <Span sx={{ pl: 1, textTransform: "capitalize" }}>
+                {isChecking ? "Transferring..." : "Send Amount"} {/* Change text based on isChecking */}
+              </Span>
             </Button>{" "}
           </ValidatorForm>
         </div>

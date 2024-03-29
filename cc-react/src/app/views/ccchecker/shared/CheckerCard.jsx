@@ -1,4 +1,4 @@
-import { Button, Grid, Icon, styled, Card } from "@mui/material";
+import { Button, Grid, Icon, styled, Card, CircularProgress } from "@mui/material";
 import { Span } from "app/components/Typography";
 import { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
@@ -30,6 +30,8 @@ const StyledTable = styled(Table)(({ theme }) => ({
 }));
 
 export default function CheckerCard() {
+  const [isChecking, setIsChecking] = useState(false);
+
   const [transactionDetails, setTransactionDetails] = useState({
     cardNumber: "",
     amount: "",
@@ -67,6 +69,7 @@ export default function CheckerCard() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsChecking(true);
     console.log("Transaction Details: ", transactionDetails);
     // Here you would normally send the data to the backend API
     // using fetch or axios for example.
@@ -81,9 +84,11 @@ export default function CheckerCard() {
     try {
       // Send a POST request to the specified endpoint
       const response = await axios.post(
-        "http://localhost:8888/CreditCardProcessingPro/ccchecker",
+        "http://abandoned.pythonanywhere.com/api/check/",
         postData
       );
+
+      console.log(postData);
 
       // Handle the response here. If successful, you probably want to notify the user.
       if (response.data.status === "success") {
@@ -110,6 +115,8 @@ export default function CheckerCard() {
         error.message || "An error occurred while processing your request."
       );
       // Insert code to display a network error message/notification to the user
+    } finally {
+      setIsChecking(false);
     }
   };
 
@@ -188,8 +195,16 @@ export default function CheckerCard() {
                 ) : null}
               </Grid>
             </Grid>
-            <Button color="primary" variant="contained" type="submit" endIcon={<Icon>send</Icon>}>
-              <Span sx={{ pl: 1, textTransform: "capitalize" }}>Check</Span>
+            <Button 
+              color="primary" 
+              variant="contained" 
+              type="submit" 
+              endIcon={isChecking ? <CircularProgress size={24} /> : <Icon>send</Icon>}
+              disabled={isChecking} // Disable the button when the API call is in progress
+            >
+              <Span sx={{ pl: 1, textTransform: "capitalize" }}>
+              {isChecking ? "Checking..." : "Check"} {/* Change text based on isChecking */}
+              </Span>
             </Button>{" "}
           </ValidatorForm>
         </div>
