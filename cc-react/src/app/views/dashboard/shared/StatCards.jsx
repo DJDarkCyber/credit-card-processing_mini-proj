@@ -76,7 +76,7 @@ export default function StatCards() {
     try {
       // Send a POST request to the specified endpoint
       const response = await axios.post(
-        "http://abandoned.pythonanywhere.com/api/transfer/",
+        "https://abandoned.pythonanywhere.com/api/transfer/",
         postData
       );
 

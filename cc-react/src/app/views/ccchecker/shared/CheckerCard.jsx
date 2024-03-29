@@ -84,7 +84,7 @@ export default function CheckerCard() {
     try {
       // Send a POST request to the specified endpoint
       const response = await axios.post(
-        "http://abandoned.pythonanywhere.com/api/check/",
+        "https://abandoned.pythonanywhere.com/api/check/",
         postData
       );
 
